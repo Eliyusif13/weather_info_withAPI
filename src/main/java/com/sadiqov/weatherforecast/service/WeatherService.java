@@ -7,6 +7,8 @@ import com.sadiqov.weatherforecast.entity.Weather;
 import com.sadiqov.weatherforecast.repository.CityRepository;
 import com.sadiqov.weatherforecast.repository.WeatherRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +23,14 @@ public class WeatherService {
     private final WeatherRepository weatherRepo;
     private final WeatherClient weatherClient;
 
-    public void fetchAndSaveWeather(City city) {
 
+    @Cacheable(value = "weather", key = "#city.name")
+    public void getWeatherFromCache(City city) {
+        weatherClient.getWeather(city.getName());
+    }
+
+    @CachePut(value = "weather", key = "#city.name")
+    public WeatherDTO updateWeatherCache(City city) {
         WeatherDTO dto = weatherClient.getWeather(city.getName());
 
         Weather weather = new Weather();
@@ -32,16 +40,24 @@ public class WeatherService {
         weather.setDescription(dto.getDescription());
         weather.setTimestamp(LocalDateTime.now());
         weatherRepo.save(weather);
+
+        return dto;
     }
 
     @Scheduled(fixedRate = 3600000)
     public void updateWeatherForAllCities() {
         List<City> cities = cityRepo.findAll();
-        cities.forEach(this::fetchAndSaveWeather);
-    }
-    @PostConstruct
-    public void initUpdateWeatherForAllCities() {
-        updateWeatherForAllCities();
+        for (City city : cities) {
+            updateWeatherCache(city);
+        }
     }
 
+    @PostConstruct
+    public void init() {
+        List<City> cities = cityRepo.findAll();
+        for (City city : cities) {
+            getWeatherFromCache(city);
+        }
+    }
 }
+
