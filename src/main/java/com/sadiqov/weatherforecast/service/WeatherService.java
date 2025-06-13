@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class WeatherService {
         List<City> cities = cityRepo.findAll();
         cities.forEach(this::fetchAndSaveWeather);
     }
-
+    @PostConstruct
+    public void initUpdateWeatherForAllCities() {
+        updateWeatherForAllCities();
+    }
 
 }
