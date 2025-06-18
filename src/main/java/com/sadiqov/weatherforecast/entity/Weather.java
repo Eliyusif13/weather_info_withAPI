@@ -14,7 +14,6 @@ public class Weather {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
     double temperature;
     int humidity;
     String description;

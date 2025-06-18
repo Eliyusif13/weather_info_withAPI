@@ -9,10 +9,10 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class WeatherClient {
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String API_KEY = "77d09da501b4123619e80ae0cee2f8ec";
 
     public WeatherDTO getWeather(String cityName) {
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName +
+        String API_KEY = "77d09da501b4123619e80ae0cee2f8ec";
+        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName +
                 "&appid=" + API_KEY + "&units=metric";
 
         ResponseEntity<JsonNode> response = restTemplate.getForEntity(url, JsonNode.class);

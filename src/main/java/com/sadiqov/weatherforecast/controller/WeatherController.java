@@ -1,11 +1,11 @@
 package com.sadiqov.weatherforecast.controller;
-
 import com.sadiqov.weatherforecast.dto.CityDto;
 import com.sadiqov.weatherforecast.dto.WeatherDTO;
 import com.sadiqov.weatherforecast.entity.City;
 import com.sadiqov.weatherforecast.entity.Weather;
 import com.sadiqov.weatherforecast.repository.CityRepository;
 import com.sadiqov.weatherforecast.repository.WeatherRepository;
+import com.sadiqov.weatherforecast.service.CityService;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -26,19 +26,12 @@ public class WeatherController {
     private final CityRepository cityRepository;
     private final WeatherRepository weatherRepository;
 
-    @PostMapping("/city")
-    public ResponseEntity<?> createCity(@RequestBody CityDto dto) {
+    private final CityService cityService;
 
-        if (cityRepository.findByName(dto.getName()).isPresent()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Bu adla şəhər artıq mövcuddur: " + dto.getName());
-        }
-        City city = new City();
-        city.setCountry(dto.getCountry());
-        city.setName(dto.getName());
-        city.setCountryCode(dto.getCountryCode());
-        return ResponseEntity.ok(cityRepository.save(city));
+    @PostMapping("/city")
+    public ResponseEntity<?> createCity(@RequestBody CityDto cityDto) {
+
+        return ResponseEntity.ok(cityService.saveCity(cityDto));
     }
 
     @GetMapping("/weather")

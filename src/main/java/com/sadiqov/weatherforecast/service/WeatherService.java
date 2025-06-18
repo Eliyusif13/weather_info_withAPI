@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +21,6 @@ public class WeatherService {
     private final CityRepository cityRepo;
     private final WeatherRepository weatherRepo;
     private final WeatherClient weatherClient;
-
 
     @Cacheable(value = "weather", key = "#city.name")
     public void getWeatherFromCache(City city) {
