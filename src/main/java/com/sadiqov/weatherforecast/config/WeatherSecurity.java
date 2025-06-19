@@ -22,7 +22,7 @@ public class WeatherSecurity {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers( "/auth/register","/api/city")
+                .antMatchers( "/auth/**","/api/city")
                 .permitAll()
                 .antMatchers("/api/weather/**").hasRole("USER")
                 .anyRequest()

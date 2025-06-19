@@ -19,7 +19,6 @@ public class LoginUser {
      String username;
     @Column(unique = true)
      String password;
-
      String role;
 
 }

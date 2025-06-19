@@ -1,6 +1,7 @@
 package com.sadiqov.weatherforecast.dto.response;
 
 public enum StatusCode {
+    INCORRECT_PASSWORD,
     INVALID_DTO,
     USER_EXITS,
     SUCCESS,

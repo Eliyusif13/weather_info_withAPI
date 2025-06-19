@@ -14,5 +14,4 @@ public class CommonResponse<T> implements Serializable {
 
   private static final long serialVersionUID = 1L;
     Status status;
-    T data;
 }
