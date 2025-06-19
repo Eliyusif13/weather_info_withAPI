@@ -15,7 +15,7 @@ public class UserCodeAlreadyExistsException extends RuntimeException {
 
 
     public UserCodeAlreadyExistsException(CommonResponse<?> responseDTO) {
-        super(responseDTO.getStatus().getMessage()); // Exception message olaraq status mesajını da ver
+        super(responseDTO.getStatus().getMessage());
         this.responseDTO = responseDTO;
     }
 }

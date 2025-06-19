@@ -20,18 +20,6 @@ public class UserService {
 
     public LoginUser register(UserDto userDto) {
 
-        if (userRepository.existsByCode(userDto.getCode())){
-
-        throw UserCodeAlreadyExistsException.builder()
-                .responseDTO(CommonResponse.builder()
-                        .status(Status.builder()
-                                .statusCode(StatusCode.USER_NOT_EXITS)
-                                .message("Registration Failed, check to log in by changing the COD or UserName")
-                                .build())
-                        .build())
-                .build()
-                ;
-    }
     if (userRepository.existsByUsername(userDto.getUsername())){
         throw UserCodeAlreadyExistsException.builder()
                 .responseDTO(CommonResponse.builder()
@@ -44,13 +32,10 @@ public class UserService {
                 ;
 
     }
-
         LoginUser user = new LoginUser();
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRole(userDto.getRole());
-        user.setCode(userDto.getCode());
-
         return userRepository.save(user);
     }
 }

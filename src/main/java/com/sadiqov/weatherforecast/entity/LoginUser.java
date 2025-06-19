@@ -21,6 +21,5 @@ public class LoginUser {
      String password;
 
      String role;
-     String code;
 
 }
