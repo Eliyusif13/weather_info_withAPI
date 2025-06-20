@@ -16,4 +16,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> cityAlreadyException(CityAlreadyExitsException cityAlreadyExitsException) {
         return new ResponseEntity<>(cityAlreadyExitsException.getMessage(), HttpStatus.ALREADY_REPORTED);
     }
+    @ExceptionHandler(NoSuchUserExits.class)
+    public ResponseEntity<String> cityAlreadyException(NoSuchUserExits cityAlreadyExitsException) {
+        return new ResponseEntity<>(cityAlreadyExitsException.getMessage(), HttpStatus.ALREADY_REPORTED);
+    }
 }

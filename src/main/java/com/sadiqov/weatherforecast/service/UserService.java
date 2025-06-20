@@ -1,5 +1,6 @@
 package com.sadiqov.weatherforecast.service;
 
+import com.sadiqov.weatherforecast.config.jwtconfig.JwtUtil;
 import com.sadiqov.weatherforecast.dto.UserDto;
 import com.sadiqov.weatherforecast.dto.request.UpdateUserRequest;
 import com.sadiqov.weatherforecast.dto.response.CommonResponse;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+private final JwtUtil jwtUtil;
 
     public LoginUser register(UserDto userDto) {
 
@@ -29,8 +30,19 @@ public class UserService {
         LoginUser user = new LoginUser();
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRole(userDto.getRole());
+        user.setRole("ROLE_USER");
         return userRepository.save(user);
+    }
+
+    public String login(UserDto userDto) {
+        LoginUser user = userRepository.findByUsername(userDto.getUsername())
+                .orElseThrow(() -> exceptionMessage(StatusCode.USER_NOT_EXITS, "User not found"));
+
+        if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+            throw exceptionMessage(StatusCode.INCORRECT_PASSWORD, "Invalid credentials");
+        }
+
+        return jwtUtil.generateToken(user.getUsername());
     }
 
 

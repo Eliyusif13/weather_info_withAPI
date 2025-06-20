@@ -1,5 +1,6 @@
 package com.sadiqov.weatherforecast.config;
 
+import com.sadiqov.weatherforecast.config.jwtconfig.JwtFilter;
 import com.sadiqov.weatherforecast.service.CustomAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -8,13 +9,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WeatherSecurity {
 
+    private final JwtFilter jwtFilter;
 
 
     @Bean
@@ -22,15 +26,18 @@ public class WeatherSecurity {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers( "/auth/**","/api/city")
+                .antMatchers("/auth/**", "/api/city", "/auth/login")
                 .permitAll()
                 .antMatchers("/api/weather/**").hasRole("USER")
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic()
-                .and().build();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // session yoxdur
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
+
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, CustomAuthenticationProvider provider) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
