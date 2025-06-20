@@ -1,4 +1,4 @@
-package com.sadiqov.weatherforecast.dto;
+package com.sadiqov.weatherforecast.dto.request;
 
 import lombok.AccessLevel;
 import lombok.Data;

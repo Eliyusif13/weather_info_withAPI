@@ -1,4 +1,4 @@
-package com.sadiqov.weatherforecast.config;
+package com.sadiqov.weatherforecast.config.securityConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

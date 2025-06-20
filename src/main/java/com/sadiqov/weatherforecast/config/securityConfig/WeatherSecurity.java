@@ -1,4 +1,4 @@
-package com.sadiqov.weatherforecast.config;
+package com.sadiqov.weatherforecast.config.securityConfig;
 
 import com.sadiqov.weatherforecast.config.jwtconfig.JwtFilter;
 import com.sadiqov.weatherforecast.service.CustomAuthenticationProvider;

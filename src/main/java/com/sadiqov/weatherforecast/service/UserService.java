@@ -1,7 +1,7 @@
 package com.sadiqov.weatherforecast.service;
 
 import com.sadiqov.weatherforecast.config.jwtconfig.JwtUtil;
-import com.sadiqov.weatherforecast.dto.UserDto;
+import com.sadiqov.weatherforecast.dto.request.UserDto;
 import com.sadiqov.weatherforecast.dto.request.UpdateUserRequest;
 import com.sadiqov.weatherforecast.dto.response.CommonResponse;
 import com.sadiqov.weatherforecast.dto.response.Status;

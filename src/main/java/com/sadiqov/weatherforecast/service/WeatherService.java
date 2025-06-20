@@ -1,7 +1,7 @@
 package com.sadiqov.weatherforecast.service;
 
 import com.sadiqov.weatherforecast.clinet.WeatherClient;
-import com.sadiqov.weatherforecast.dto.WeatherDTO;
+import com.sadiqov.weatherforecast.dto.request.WeatherDTO;
 import com.sadiqov.weatherforecast.entity.City;
 import com.sadiqov.weatherforecast.entity.Weather;
 import com.sadiqov.weatherforecast.repository.CityRepository;

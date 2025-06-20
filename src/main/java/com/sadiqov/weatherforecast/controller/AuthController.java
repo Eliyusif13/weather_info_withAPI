@@ -1,6 +1,6 @@
 package com.sadiqov.weatherforecast.controller;
 
-import com.sadiqov.weatherforecast.dto.UserDto;
+import com.sadiqov.weatherforecast.dto.request.UserDto;
 import com.sadiqov.weatherforecast.dto.request.*;
 import com.sadiqov.weatherforecast.service.UserService;
 import lombok.RequiredArgsConstructor;

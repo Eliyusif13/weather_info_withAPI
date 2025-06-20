@@ -1,6 +1,5 @@
-package com.sadiqov.weatherforecast.dto;
+package com.sadiqov.weatherforecast.dto.request;
 
-import com.sadiqov.weatherforecast.entity.City;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

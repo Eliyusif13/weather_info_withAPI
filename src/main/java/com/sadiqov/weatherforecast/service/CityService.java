@@ -1,6 +1,6 @@
 package com.sadiqov.weatherforecast.service;
 
-import com.sadiqov.weatherforecast.dto.CityDto;
+import com.sadiqov.weatherforecast.dto.request.CityDto;
 import com.sadiqov.weatherforecast.entity.City;
 import com.sadiqov.weatherforecast.excebtion.CityAlreadyExitsException;
 import com.sadiqov.weatherforecast.repository.CityRepository;

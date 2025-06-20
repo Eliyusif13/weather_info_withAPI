@@ -1,6 +1,6 @@
 package com.sadiqov.weatherforecast.controller;
-import com.sadiqov.weatherforecast.dto.CityDto;
-import com.sadiqov.weatherforecast.dto.WeatherDTO;
+import com.sadiqov.weatherforecast.dto.request.CityDto;
+import com.sadiqov.weatherforecast.dto.request.WeatherDTO;
 import com.sadiqov.weatherforecast.entity.City;
 import com.sadiqov.weatherforecast.entity.Weather;
 import com.sadiqov.weatherforecast.repository.CityRepository;

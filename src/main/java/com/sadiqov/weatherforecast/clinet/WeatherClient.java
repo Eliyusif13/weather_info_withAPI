@@ -1,7 +1,7 @@
 package com.sadiqov.weatherforecast.clinet;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sadiqov.weatherforecast.dto.WeatherDTO;
+import com.sadiqov.weatherforecast.dto.request.WeatherDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
