@@ -27,15 +27,18 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDto userDto) {
         String token = userService.login(userDto);
-        if (userDto.getLoginAttempts().equals(3)) {
-            HashMap<String,String> message=new HashMap<>();
-            message.put("message","Too many failed attempts. Forgot password?");
+
+        // Null yoxlaması əlavə et
+        if (userDto.getLoginAttempts() != null && userDto.getLoginAttempts().equals(3)) {
+            HashMap<String,String> message = new HashMap<>();
+            message.put("message", "Too many failed attempts. Forgot password?");
             message.put("redirect", "/auth/forgot-password");
             return ResponseEntity.ok(message);
-
         }
+
         return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
+
 
     @PostMapping("/auth/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request) {
