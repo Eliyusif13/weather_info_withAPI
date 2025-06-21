@@ -14,11 +14,13 @@ public class LoginUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id;
+    Long id;
 
-     String username;
+    String username;
     @Column(unique = true)
-     String password;
-     String role;
+    String password;
+    String role;
+    @Column(name = "login_attempts")
+    private Integer loginAttempts;
 
 }

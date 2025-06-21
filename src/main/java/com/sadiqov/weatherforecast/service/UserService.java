@@ -20,7 +20,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 private final JwtUtil jwtUtil;
 
-    public LoginUser register(UserDto userDto) {
+    public void register(UserDto userDto) {
 
         if (userRepository.existsByUsername(userDto.getUsername())) {
             throw exceptionMessage(StatusCode.USER_EXITS,
@@ -31,7 +31,7 @@ private final JwtUtil jwtUtil;
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRole("ROLE_USER");
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public String login(UserDto userDto) {
@@ -39,12 +39,32 @@ private final JwtUtil jwtUtil;
                 .orElseThrow(() -> exceptionMessage(StatusCode.USER_NOT_EXITS, "User not found"));
 
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+            int currentAttempts = user.getLoginAttempts();
+            user.setLoginAttempts(currentAttempts + 1);
+
+            if (currentAttempts + 1 >= 3) {
+                userDto.setLoginAttempts(user.getLoginAttempts());
+                return "Too many failed attempts. Forgot password?";
+            }
+
+            userRepository.save(user);
             throw exceptionMessage(StatusCode.INCORRECT_PASSWORD, "Invalid credentials");
         }
+
+        user.setLoginAttempts(0);
+        userRepository.save(user);
 
         return jwtUtil.generateToken(user.getUsername());
     }
 
+    public void resetPassword(String username, String newPassword) {
+        LoginUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> exceptionMessage(StatusCode.USER_NOT_EXITS, "User not found"));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setLoginAttempts(0);
+        userRepository.save(user);
+    }
 
     public void deleteByUsernameAndPassword(String username, String rawPassword) {
         LoginUser user = userRepository.findByUsername(username)

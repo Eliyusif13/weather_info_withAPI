@@ -4,9 +4,12 @@ import com.sadiqov.weatherforecast.dto.request.UserDto;
 import com.sadiqov.weatherforecast.dto.request.*;
 import com.sadiqov.weatherforecast.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Collections;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,7 +27,20 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDto userDto) {
         String token = userService.login(userDto);
+        if (userDto.getLoginAttempts().equals(3)) {
+            HashMap<String,String> message=new HashMap<>();
+            message.put("message","Too many failed attempts. Forgot password?");
+            message.put("redirect", "/auth/forgot-password");
+            return ResponseEntity.ok(message);
+
+        }
         return ResponseEntity.ok(Collections.singletonMap("token", token));
+    }
+
+    @PostMapping("/auth/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        userService.resetPassword(request.getUsername(), request.getNewPassword());
+        return ResponseEntity.ok("Password successfully updated.");
     }
 
     @DeleteMapping("/delete")

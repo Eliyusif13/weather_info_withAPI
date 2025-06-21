@@ -16,5 +16,6 @@ public class UserDto {
     String role;
     @Column(unique = true)
     String Code;
+    Integer loginAttempts ;
 
 }
